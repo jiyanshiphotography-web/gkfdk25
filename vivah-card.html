@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>साहिल रिंकी विवाह निमंत्रण</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* Layout: तीन पैनल ऊपर से नीचे। हर पैनल अपनी चौड़ाई के हिसाब से पूरा स्केल होता है,
+     इसलिए नाप इमेज के पिक्सेल में लिखे हैं (--x, --y, --w, --fs)। */
+  :root {
+    --ink: #111;
+    --paper: #fff;
+    --desk: #dcdad6;
+    --display: "Yatra One", "Noto Serif Devanagari", "Mangal", serif;
+    --body: "Hind", "Noto Sans Devanagari", "Mangal", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { color-scheme: light; }
+  body {
+    margin: 0;
+    background: var(--desk);
+    color: var(--ink);
+    font-family: var(--body);
+  }
+  .stack {
+    max-width: 940px;
+    margin: 0 auto;
+    padding: 28px max(16px, env(safe-area-inset-left, 0px)) 40px max(16px, env(safe-area-inset-right, 0px));
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+  .scroller { overflow-x: auto; }
+
+  .panel {
+    position: relative;
+    width: 100%;
+    min-width: 560px;
+    background: var(--paper);
+    container-type: inline-size;
+    box-shadow: 0 1px 2px rgba(0,0,0,.18), 0 10px 28px rgba(0,0,0,.12);
+  }
+  .p1 { aspect-ratio: 626 / 272; --p: calc(100cqw / 626); }
+  .p2 { aspect-ratio: 626 / 267; --p: calc(100cqw / 626); }
+  .p3 { aspect-ratio: 608 / 256; --p: calc(100cqw / 608); }
+
+  .frame {
+    position: absolute; inset: 0; pointer-events: none;
+    border: calc(1.5 * var(--p)) solid var(--ink);
+  }
+  .frame::after {
+    content: ""; position: absolute;
+    inset: calc(3.5 * var(--p));
+    border: calc(3 * var(--p)) solid var(--ink);
+  }
+
+  .a {
+    position: absolute;
+    left: calc(var(--x) * var(--p));
+    top: calc(var(--y) * var(--p));
+    width: calc(var(--w) * var(--p));
+    height: calc(var(--h) * var(--p));
+    font-size: calc(var(--fs, 10) * var(--p));
+    line-height: 1.38;
+    margin: 0;
+    white-space: nowrap;
+  }
+  svg.a { display: block; overflow: visible; }
+  .c { text-align: center; }
+  .d { font-family: var(--display); font-weight: 400; line-height: 1.12; }
+  .b { font-weight: 700; }
+  .sb { font-weight: 600; }
+  .md { font-weight: 500; }
+
+  .date {
+    border: calc(1 * var(--p)) dashed var(--ink);
+    border-radius: calc(9 * var(--p)) 0 calc(9 * var(--p)) 0;
+    padding: calc(1.5 * var(--p)) 0;
+    font-weight: 600;
+  }
+  .box {
+    border: calc(1 * var(--p)) dashed var(--ink);
+    padding: calc(2 * var(--p)) 0;
+  }
+  .box.solid {
+    border-style: solid;
+    border-width: calc(1.2 * var(--p));
+    border-radius: calc(6 * var(--p));
+    font-weight: 700;
+  }
+  .sang {
+    border-top: calc(1 * var(--p)) solid var(--ink);
+    border-bottom: calc(1 * var(--p)) solid var(--ink);
+    font-family: var(--display);
+    line-height: 1.5;
+  }
+  .addr {
+    border: calc(1.6 * var(--p)) solid var(--ink);
+    background: var(--paper);
+  }
+  .addr .ln {
+    position: absolute;
+    left: calc(10 * var(--p)); right: calc(14 * var(--p));
+    border-top: calc(1 * var(--p)) dashed var(--ink);
+  }
+  .addr .dm {
+    position: absolute;
+    width: calc(5 * var(--p)); height: calc(5 * var(--p));
+    border: calc(1 * var(--p)) solid var(--ink);
+    background: var(--paper);
+    transform: translateY(-50%) rotate(45deg);
+  }
+
+  .hint {
+    max-width: 940px; margin: 0 auto; padding: 0 16px 28px;
+    font: 500 13px/1.5 var(--body); color: #4a4845;
+  }
+
+  @media print {
+    body { background: #fff; }
+    .stack { padding: 0; gap: 14px; }
+    .panel { box-shadow: none; break-inside: avoid; }
+    .hint { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- साझा सजावट: कलश, ॐ की लड़ियाँ, कोने की सजावट -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="kalash" viewBox="0 0 80 100">
+      <g fill="#fff" stroke="#111" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M40 42 C29 36 19 25 21 8 C30 14 38 25 40 42Z"/>
+        <path d="M40 42 C51 36 61 25 59 8 C50 14 42 25 40 42Z"/>
+        <path d="M40 42 C33 29 35 14 40 3 C45 14 47 29 40 42Z"/>
+        <ellipse cx="40" cy="32" rx="10" ry="13"/>
+        <path d="M36 24 C38 28 38 34 36 38 M44 24 C42 28 42 34 44 38" fill="none" stroke-width="1"/>
+        <ellipse cx="40" cy="45" rx="15" ry="4"/>
+        <path d="M27 47 C28 53 26 55 22 59 L58 59 C54 55 52 53 53 47"/>
+        <path d="M22 59 C5 67 8 95 40 97 C72 95 75 67 58 59Z"/>
+        <path d="M13 73 C30 80 50 80 67 73" fill="none"/>
+        <g fill="#111" stroke="none">
+          <circle cx="24" cy="85" r="1.4"/><circle cx="32" cy="88" r="1.4"/><circle cx="40" cy="89" r="1.4"/>
+          <circle cx="48" cy="88" r="1.4"/><circle cx="56" cy="85" r="1.4"/>
+        </g>
+      </g>
+    </symbol>
+
+    <symbol id="om-chain" viewBox="0 0 46 128">
+      <g fill="none" stroke="#111" stroke-width="1.6" stroke-linejoin="round">
+        <circle cx="23" cy="20" r="17.5"/>
+        <circle cx="23" cy="20" r="13.5" stroke-width="1.2" stroke-dasharray="1.6 2.2"/>
+        <text x="23" y="29" font-size="22" text-anchor="middle" font-family="Hind, 'Noto Sans Devanagari', Mangal, sans-serif" fill="#111" stroke="none">ॐ</text>
+        <path d="M9 38V97M23 38V126M37 38V97" stroke-width="1.2"/>
+        <g fill="#111" stroke="none">
+          <path d="M5 48L9 55L13 48Z M5 62L9 69L13 62Z M5 76L9 83L13 76Z M5 90L9 97L13 90Z"/>
+          <path d="M19 48L23 55L27 48Z M19 62L23 69L27 62Z M19 76L23 83L27 76Z M19 90L23 97L27 90Z M19 104L23 111L27 104Z M19 118L23 125L27 118Z"/>
+          <path d="M33 48L37 55L41 48Z M33 62L37 69L41 62Z M33 76L37 83L41 76Z M33 90L37 97L41 90Z"/>
+        </g>
+      </g>
+    </symbol>
+
+    <symbol id="corner" viewBox="0 0 40 40">
+      <g fill="none" stroke="#111" stroke-width="1.3" stroke-linecap="round">
+        <path d="M0 27 A13 13 0 0 1 13 40"/>
+        <path d="M0 15 A25 25 0 0 1 25 40"/>
+        <path d="M0 3 A37 37 0 0 1 37 40"/>
+        <circle cx="5" cy="35" r="1.7" fill="#111" stroke="none"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<main class="stack">
+
+  <!-- ───────────── पैनल 1 : मांगलिक कार्यक्रम ───────────── -->
+  <div class="scroller"><section class="panel p1" aria-label="मांगलिक कार्यक्रम">
+    <div class="frame"></div>
+
+    <p class="a md" style="--x:28;--y:20;--fs:9.2">मंगलम् भगवान विष्णुः,<br>मंगलम्&nbsp; पुण्डरीकाक्षः;</p>
+    <p class="a c b" style="--x:171;--y:15;--w:135;--fs:12.5">॥ श्री गणेशाय नमः ॥</p>
+    <p class="a md" style="--x:366;--y:20;--fs:9.2">मंगलम् गरुड़ध्वजः।<br>मंगलाय तनो हरिः ॥</p>
+
+    <h1 class="a c d" style="--x:122;--y:48;--w:230;--fs:27;font-weight:400">मांगलिक कार्यक्रम</h1>
+
+    <p class="a c d" style="--x:31;--y:88;--w:148;--fs:19">सत्यनारायण पूजा</p>
+    <p class="a c date" style="--x:31;--y:114;--w:148;--fs:9">दिनांक:- 01 जुलाई 2025 मंगलवार</p>
+    <p class="a c d" style="--x:31;--y:151;--w:148;--fs:19">एवं मंडप पूजन</p>
+    <p class="a c date" style="--x:31;--y:177;--w:148;--fs:9">दिनांक:- 01 जुलाई 2025 मंगलवार</p>
+
+    <svg class="a" style="--x:196;--y:86;--w:45;--h:127" aria-hidden="true"><use href="#om-chain" width="100%" height="100%"/></svg>
+
+    <p class="a c d" style="--x:256;--y:88;--w:152;--fs:19">शुभ विवाह</p>
+    <p class="a c date" style="--x:256;--y:114;--w:152;--fs:9">दिनांक:- 01 जुलाई 2025 मंगलवार</p>
+    <p class="a c d" style="--x:256;--y:151;--w:152;--fs:19">प्रीतिभोज</p>
+    <p class="a c date" style="--x:256;--y:177;--w:152;--fs:9">दिनांक:- 01 जुलाई 2025 मंगलवार</p>
+
+    <p class="a c md" style="--x:126;--y:221;--w:220;--fs:8.6">मीठे बोल- मेरी मौसी की शादी में जरूर से जरूर आना-<br>पंजीव, पंजूकुमारी, प्रीति, सेनिया, सप्तर, तुल्सी</p>
+
+    <svg class="a" style="--x:6.5;--y:227.5;--w:38;--h:38" aria-hidden="true"><use href="#corner" width="100%" height="100%"/></svg>
+
+    <!-- लहरदार दोहरी रेखा -->
+    <svg class="a" style="--x:440;--y:0;--w:60;--h:272" viewBox="0 0 60 272" aria-hidden="true">
+      <path d="M43 5 C43 62 6 82 6 140 C6 200 26 232 26 267" fill="none" stroke="#111" stroke-width="2.6"/>
+      <path d="M51 5 C51 62 14 82 14 140 C14 200 34 232 34 267" fill="none" stroke="#111" stroke-width="1.4"/>
+    </svg>
+
+    <!-- गणेश जी (सरल रेखा-चित्र) -->
+    <svg class="a" style="--x:484;--y:80;--w:130;--h:160" viewBox="0 0 160 190" aria-label="श्री गणेश">
+      <defs>
+        <path id="g-arm1" d="M60 99 C44 95 36 81 34 63"/>
+        <path id="g-arm2" d="M100 99 C116 95 124 81 126 63"/>
+        <path id="g-arm3" d="M56 113 C42 117 36 127 40 137"/>
+        <path id="g-arm4" d="M104 113 C118 117 124 127 120 137"/>
+        <path id="g-trunk" d="M77 60 C74 77 66 87 74 101 C80 109 92 105 92 95"/>
+      </defs>
+      <g fill="none" stroke="#111" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round">
+        <circle cx="80" cy="50" r="36" stroke-dasharray="2 3.4" stroke-width="1.2"/>
+        <!-- कमल -->
+        <g fill="#fff">
+          <path transform="rotate(-74 80 188)" d="M80 188 C66 174 66 158 80 144 C94 158 94 174 80 188Z"/>
+          <path transform="rotate(74 80 188)" d="M80 188 C66 174 66 158 80 144 C94 158 94 174 80 188Z"/>
+          <path transform="rotate(-50 80 188)" d="M80 188 C66 174 66 158 80 144 C94 158 94 174 80 188Z"/>
+          <path transform="rotate(50 80 188)" d="M80 188 C66 174 66 158 80 144 C94 158 94 174 80 188Z"/>
+          <path transform="rotate(-25 80 188)" d="M80 188 C66 174 66 158 80 144 C94 158 94 174 80 188Z"/>
+          <path transform="rotate(25 80 188)" d="M80 188 C66 174 66 158 80 144 C94 158 94 174 80 188Z"/>
+          <path d="M80 188 C66 174 66 158 80 144 C94 158 94 174 80 188Z"/>
+        </g>
+        <path d="M14 188 H146"/>
+        <!-- पैर, पेट -->
+        <path fill="#fff" d="M44 142 C50 128 110 128 116 142 C118 152 100 156 80 154 C60 156 42 152 44 142Z"/>
+        <path d="M70 151 C76 145 84 145 90 151"/>
+        <path fill="#fff" d="M54 104 C46 122 52 134 80 136 C108 134 114 122 106 104 C100 90 60 90 54 104Z"/>
+        <path d="M62 119 C72 125 88 125 98 119" stroke-width="1.2"/>
+        <path d="M58 98 C70 112 92 120 104 128" stroke-width="1.2"/>
+        <!-- चार भुजाएँ -->
+        <use href="#g-arm1" stroke-width="7"/><use href="#g-arm1" stroke="#fff" stroke-width="4.2"/>
+        <use href="#g-arm2" stroke-width="7"/><use href="#g-arm2" stroke="#fff" stroke-width="4.2"/>
+        <use href="#g-arm3" stroke-width="7"/><use href="#g-arm3" stroke="#fff" stroke-width="4.2"/>
+        <use href="#g-arm4" stroke-width="7"/><use href="#g-arm4" stroke="#fff" stroke-width="4.2"/>
+        <circle cx="34" cy="58" r="6.5" fill="#fff"/><circle cx="126" cy="58" r="6.5" fill="#fff"/>
+        <circle cx="40" cy="139" r="6.5" fill="#fff"/><circle cx="120" cy="139" r="6.5" fill="#fff"/>
+        <circle cx="40" cy="139" r="2.6"/><circle cx="120" cy="139" r="2.6"/>
+        <!-- कान, सिर, मुकुट -->
+        <ellipse cx="55" cy="50" rx="13" ry="18" fill="#fff"/>
+        <ellipse cx="105" cy="50" rx="13" ry="18" fill="#fff"/>
+        <ellipse cx="80" cy="50" rx="19" ry="22" fill="#fff"/>
+        <path fill="#fff" d="M62 36 L64 18 L72 28 L80 10 L88 28 L96 18 L98 36 C90 32 70 32 62 36Z"/>
+        <path d="M80 37 V42" stroke-width="1.4"/>
+        <circle cx="72" cy="47" r="1.7" fill="#111" stroke="none"/>
+        <circle cx="88" cy="47" r="1.7" fill="#111" stroke="none"/>
+        <!-- सूँड़ और दाँत -->
+        <use href="#g-trunk" stroke-width="7"/><use href="#g-trunk" stroke="#fff" stroke-width="4.2"/>
+        <path d="M70 66 L62 76" stroke-width="2.2"/>
+      </g>
+    </svg>
+  </section></div>
+
+  <!-- ───────────── पैनल 2 : निमंत्रण ───────────── -->
+  <div class="scroller"><section class="panel p2" aria-label="निमंत्रण">
+    <div class="frame"></div>
+
+    <p class="a c md" style="--x:246;--y:10;--w:70;--fs:10.5">स्नेही स्वजन,</p>
+    <p class="a c box" style="--x:141;--y:28;--w:182;--fs:9.4">परमपिता परमेश्वर की असीम अनुकम्पा से,</p>
+
+    <p class="a b" style="--x:26;--y:64;--fs:11.5">आयुष्मान</p>
+    <p class="a d" style="--x:77;--y:55;--fs:27">साहिल कु0 सिंह</p>
+    <p class="a c sb" style="--x:36;--y:94;--w:190;--fs:8.4">द्वितीय सुपुत्र : श्रीमती रानीमाला देवी<br>ग्राम–झिकटिया, थाना- पनी, मोहल्ला, जिला– पूर्णियाँ</p>
+
+    <p class="a b" style="--x:184;--y:128;--fs:11.5">संग</p>
+
+    <p class="a b" style="--x:192;--y:150;--fs:11.5">आयुष्मति</p>
+    <p class="a d" style="--x:241;--y:138;--fs:27">रिंकी कुमारी</p>
+    <p class="a c sb" style="--x:200;--y:179;--w:190;--fs:8.4">द्वितीय सुपुत्री : श्रीमती रानीमाला देवी<br>ग्राम–झिकटिया, थाना- पनी, मोहल्ला, जिला– पूर्णियाँ</p>
+
+    <p class="a c box solid" style="--x:266;--y:208;--w:116;--fs:10.5">के मंगल परिणय</p>
+    <p class="a c md" style="--x:196;--y:230;--w:256;--fs:8.5">को मांगलिक बेला में सम्मिलित होकर वर- वधू<br>को आशीष प्रदान कर हमें अनुगृहीत करने की कृपा करें।</p>
+
+    <p class="a c b" style="--x:34;--y:172;--w:100;--fs:12.5">विनीत</p>
+    <p class="a c d" style="--x:24;--y:192;--w:120;--fs:12.5">श्रीमती रानीमाला देवी</p>
+    <p class="a c sb" style="--x:34;--y:211;--w:100;--fs:8.6">ग्राम– कटिहर, मोहल्ला,<br>जिला– पूर्णियाँ</p>
+    <svg class="a" style="--x:6.5;--y:224.5;--w:36;--h:36" aria-hidden="true"><use href="#corner" width="100%" height="100%"/></svg>
+
+    <!-- ढोल और शहनाई -->
+    <svg class="a" style="--x:284;--y:58;--w:100;--h:68" viewBox="0 0 110 70" aria-label="ढोल और शहनाई">
+      <g fill="#fff" stroke="#111" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M12 20 C8 42 18 58 34 60 C50 58 58 42 56 20Z"/>
+        <path d="M16 29L30 56M26 26L40 58M38 26L50 54M46 25L54 43" fill="none" stroke-width="1"/>
+        <ellipse cx="34" cy="20" rx="22" ry="8"/>
+        <g transform="translate(46 6)">
+          <path d="M12 20 C8 42 18 58 34 60 C50 58 58 42 56 20Z"/>
+          <path d="M16 29L30 56M26 26L40 58M38 26L50 54M46 25L54 43" fill="none" stroke-width="1"/>
+          <ellipse cx="34" cy="20" rx="22" ry="8"/>
+        </g>
+        <path d="M2 68L54 12" stroke-width="3.2" fill="none"/>
+        <path d="M49 7 L64 3 L60 18Z"/>
+      </g>
+    </svg>
+
+    <svg class="a" style="--x:396;--y:12;--w:45;--h:127" aria-hidden="true"><use href="#om-chain" width="100%" height="100%"/></svg>
+
+    <!-- लहरदार दोहरी रेखा -->
+    <svg class="a" style="--x:470;--y:0;--w:70;--h:267" viewBox="0 0 70 267" aria-hidden="true">
+      <path d="M13 5 C13 65 51 75 51 130 C51 185 8 200 8 262" fill="none" stroke="#111" stroke-width="2.6"/>
+      <path d="M21 5 C21 65 59 75 59 130 C59 185 16 200 16 262" fill="none" stroke="#111" stroke-width="1.4"/>
+    </svg>
+
+    <p class="a c b" style="--x:534;--y:50;--w:86;--fs:11">दर्शनाभिलाषी</p>
+    <p class="a c sb" style="--x:530;--y:72;--w:92;--fs:8.8">नंदकिशोर दास<br>अभीशंकर, देवकीनंदन<br>नंदकिशोर कुमार दास</p>
+
+    <svg class="a" style="--x:526;--y:116;--w:58;--h:68" aria-hidden="true"><use href="#kalash" width="100%" height="100%"/></svg>
+
+    <p class="a c b" style="--x:526;--y:186;--w:90;--fs:11">स्वागतकर्ता</p>
+    <p class="a c sb" style="--x:498;--y:208;--w:122;--fs:7.9">जगदीश दास, नंदकिशोर दास<br>उमाशंकर, अभीशंकर, देवकीनंदन<br>जगदीश दास, नंदकिशोर कुमार दास</p>
+  </section></div>
+
+  <!-- ───────────── पैनल 3 : शुभ विवाह (लिफ़ाफ़ा / कवर) ───────────── -->
+  <div class="scroller"><section class="panel p3" aria-label="शुभ विवाह">
+    <div class="frame"></div>
+
+    <p class="a d" style="--x:21;--y:20;--fs:47">साहिल</p>
+    <p class="a c sang" style="--x:96;--y:80;--w:48;--fs:13">संग</p>
+    <p class="a d" style="--x:104;--y:104;--fs:47">रिंकी</p>
+
+    <p class="a c b" style="--x:34;--y:164;--w:120;--fs:15">विनीत</p>
+    <p class="a c d" style="--x:18;--y:190;--w:152;--fs:14.5">श्रीमती रानीमाला देवी</p>
+    <p class="a c sb" style="--x:14;--y:214;--w:160;--fs:10.6">ग्राम-झिकटिया, पो०– कटिहार<br>मोहल्ला, जिला– पूर्णियाँ</p>
+
+    <!-- पता लिखने का खाना -->
+    <div class="a addr" style="--x:201;--y:148;--w:220;--h:95">
+      <span class="a md" style="--x:6;--y:3;--fs:9">श्रीमान् श्री</span>
+      <span class="ln" style="top:calc(34 * var(--p))"></span><span class="dm" style="right:calc(9 * var(--p));top:calc(34 * var(--p))"></span>
+      <span class="ln" style="top:calc(58 * var(--p))"></span><span class="dm" style="right:calc(9 * var(--p));top:calc(58 * var(--p))"></span>
+      <span class="ln" style="top:calc(80 * var(--p))"></span><span class="dm" style="right:calc(9 * var(--p));top:calc(80 * var(--p))"></span>
+    </div>
+    <svg class="a" style="--x:193;--y:152;--w:9;--h:88" viewBox="0 0 9 88" aria-hidden="true">
+      <g fill="#111"><rect x="0" y="6" width="8" height="6"/><rect x="0" y="24" width="8" height="6"/><rect x="0" y="42" width="8" height="6"/><rect x="0" y="60" width="8" height="6"/><rect x="0" y="78" width="8" height="6"/></g>
+    </svg>
+    <svg class="a" style="--x:424;--y:146;--w:16;--h:70" viewBox="0 0 16 70" aria-hidden="true">
+      <g fill="#fff" stroke="#111" stroke-width="1.4" stroke-linejoin="round">
+        <path d="M8 2 L15 12 L8 22 L1 12Z"/>
+        <path d="M8 7 L11.5 12 L8 17 L4.5 12Z" fill="#111"/>
+        <path d="M8 22 V44" fill="none"/>
+        <path d="M8 44 L13 51 L8 58 L3 51Z"/>
+        <path d="M8 58 V68" fill="none"/>
+      </g>
+    </svg>
+
+    <!-- लहरदार दोहरी रेखा -->
+    <svg class="a" style="--x:395;--y:0;--w:75;--h:150" viewBox="0 0 75 150" aria-hidden="true">
+      <path d="M14 4 C14 60 52 62 52 96 C52 124 14 124 14 148" fill="none" stroke="#111" stroke-width="2.6"/>
+      <path d="M22 4 C22 60 60 62 60 96 C60 124 22 124 22 148" fill="none" stroke="#111" stroke-width="1.4"/>
+    </svg>
+
+    <p class="a d" style="--x:431;--y:14;--fs:56">शुभ</p>
+    <p class="a d" style="--x:478;--y:68;--fs:56">विवाह</p>
+    <span class="a" style="--x:528;--y:20;--w:2;--h:40;background:#111"></span>
+    <p class="a sb" style="--x:538;--y:19;--fs:14.5">02 जुलाई</p>
+    <p class="a sb" style="--x:538;--y:41;--fs:11.5">2025 बुधवार</p>
+
+    <!-- कलश और हाथ -->
+    <svg class="a" style="--x:518;--y:146;--w:86;--h:98" viewBox="0 0 86 98" aria-hidden="true">
+      <use href="#kalash" x="3" y="0" width="80" height="72"/>
+      <g fill="#fff" stroke="#111" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M2 80 C18 72 32 66 46 70 C56 72 60 76 56 80 C64 78 74 78 84 82 C84 86 72 88 58 88 C40 92 22 94 2 92Z"/>
+        <path d="M46 70 C50 72 54 74 56 80" fill="none" stroke-width="1.1"/>
+        <path d="M60 80 L84 80 M58 85 L82 85" fill="none" stroke-width="1.1"/>
+      </g>
+    </svg>
+  </section></div>
+
+</main>
+
+<p class="hint">पेज बड़ा-छोटा करने पर पूरा कार्ड अपने आप स्केल होता है। छापने के लिए ब्राउज़र का Print खोलें।</p>
+
+</body>
+</html>
